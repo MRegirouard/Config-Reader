@@ -1,0 +1,28 @@
+{
+  "name": "config-reader",
+  "version": "1.0.0",
+  "description": "An NPM package to read a configuration file in a robust and user-friendly manner.",
+  "main": "ConfigReader.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MRegirouard/Config-Reader.git"
+  },
+  "keywords": [
+    "configuration",
+    "file",
+    "read",
+    "reader",
+    "json",
+    "config",
+    "options"
+  ],
+  "author": "MRegirouard",
+  "license": "GPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/MRegirouard/Config-Reader/issues"
+  },
+  "homepage": "https://github.com/MRegirouard/Config-Reader#readme"
+}
