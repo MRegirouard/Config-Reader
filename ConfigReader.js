@@ -9,9 +9,10 @@ exports.writeOptions = writeOptions
  * @param {{}} [options] Options to read from config file JSON data. Keys are options to read, values are defaults for creating and empty config.
  * @param {boolean} [acceptEmpty = true] Accept an empty value for a config option.
  * @param {boolean} [create = true] Create an empty config file if one is not found.
+ * @param {boolean} [addNotExist = true] Add any options not present to the file with their default values.
  * @returns {Promise<Object>} A promise that contains an object with the parsed config options from the file when fulfilled.
  */
-function readOptions(filePath = './Config.json', options, acceptEmpty = true, create = true)
+function readOptions(filePath = './Config.json', options, acceptEmpty = true, create = true, addNotExist = true)
 {
     return new Promise((resolve, reject) => 
     {
@@ -47,20 +48,38 @@ function readOptions(filePath = './Config.json', options, acceptEmpty = true, cr
                         {
                             const readConfig = JSON.parse(data)
 
+                            var foundEmpty = false
+
                             for (const [key, value] of Object.entries(options))
                             {
                                 let readOption = readConfig[key]
 
-                                if (!acceptEmpty && (readOption == null || readOption === ''))
-                                    reject('Error parsing config option \"' + key + '\": Option not found or is blank.')
+                                if (!acceptEmpty && (readOption == null || typeof readOption === 'undefined' || readOption === ''))
+                                {
+                                    foundEmpty = true
 
-                                if (typeof readOption !== typeof value)
+                                    if (addNotExist)
+                                    {
+                                        readConfig[key] = value
+                                    }
+                                    else
+                                        reject('Error parsing config option \"' + key + '\": Option not found or is blank.')
+                                }
+                                else if (typeof readOption !== typeof value)
                                     reject('Error parsing config option\"' + key + '\": Option is of the wrong type (expected ' + typeof value + ', recieved ' + typeof readOption + ').')
 
-                                config[key] = readOption
+                                config[key] = value
                             }
-
-                            resolve(config)
+                            
+                            if (foundEmpty && addNotExist)
+                            {
+                                writeOptions(filePath, config).then(() =>
+                                {
+                                    reject('Error parsing config option: Option not found or is blank. Added option to the file.')
+                                })
+                            }
+                            else
+                                resolve(config)
                         }
                         catch (err)
                         {
