@@ -12,7 +12,7 @@ This package allows your to easily store config information in JSON format for y
  - Type checking
  - Writing options back to a file
  - Error handling and robustness
- - Asyncronous operation
+ - Asynchronous operation
 
 # Installation
 ```
