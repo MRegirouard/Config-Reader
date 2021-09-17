@@ -60,15 +60,15 @@ function readOptions(filePath = './Config.json', options, acceptEmpty = true, cr
 
                                     if (addNotExist)
                                     {
-                                        readConfig[key] = value
+                                        config[key] = value
                                     }
                                     else
                                         reject('Error parsing config option \"' + key + '\": Option not found or is blank.')
                                 }
                                 else if (typeof readOption !== typeof value)
                                     reject('Error parsing config option\"' + key + '\": Option is of the wrong type (expected ' + typeof value + ', recieved ' + typeof readOption + ').')
-
-                                config[key] = value
+                                else
+                                    config[key] = readOption
                             }
                             
                             if (foundEmpty && addNotExist)
