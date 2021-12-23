@@ -10,9 +10,10 @@ exports.writeOptions = writeOptions
  * @param {boolean} [acceptEmpty = true] Accept an empty value for a config option.
  * @param {boolean} [create = true] Create an empty config file if one is not found.
  * @param {boolean} [addNotExist = true] Add any options not present to the file with their default values.
+ * @param {string | number} [space = 0] Indentation value for the config file creation. This will be passed directly to JSON.stringify.
  * @returns {Promise<Object>} A promise that contains an object with the parsed config options from the file when fulfilled.
  */
-function readOptions(filePath = './Config.json', options, acceptEmpty = true, create = true, addNotExist = true)
+function readOptions(filePath = './Config.json', options, acceptEmpty = true, create = true, addNotExist = true, space = 0)
 {
     return new Promise((resolve, reject) => 
     {
@@ -24,7 +25,7 @@ function readOptions(filePath = './Config.json', options, acceptEmpty = true, cr
             {
                 if (create)
                 {
-                    fs.writeFile(filePath, JSON.stringify(config), (err) => 
+                    fs.writeFile(filePath, JSON.stringify(config, null, space), (err) =>
                     {
                         if (err) reject('Config file ' + filePath + ' does not exist, but failed to create a blank one: ' + err)
 
@@ -96,13 +97,14 @@ function readOptions(filePath = './Config.json', options, acceptEmpty = true, cr
  * Write specified options from the config file.
  * @param {string} [filePath = './Config.json'] Path of file to read config information from.
  * @param {{}} [options] Options to write to config file JSON data.
+ * @param {string | number} [space = 0] Indentation value for the config file. This will be passed directly to JSON.stringify.
  * @returns {Promise<Object>} A promise that contains an object with the parsed config options from the file when fulfilled.
  */
-function writeOptions(filePath = './Config.json', options, create = true)
+function writeOptions(filePath = './Config.json', options, create = true.valueOf, space = 0)
 {
     return new Promise((resolve, reject) => 
     {
-        const writeData = JSON.stringify(options)
+        const writeData = JSON.stringify(options, null, space)
 
         fs.access(filePath, fs.constants.W_OK, (err) => 
         {
