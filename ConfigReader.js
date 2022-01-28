@@ -74,7 +74,7 @@ function readOptions(filePath = './Config.json', options, acceptEmpty = true, cr
                             
                             if (foundEmpty && addNotExist)
                             {
-                                writeOptions(filePath, config).then(() =>
+                                writeOptions(filePath, config, create, space).then(() =>
                                 {
                                     reject('Error parsing config option: Option not found or is blank. Added option to the file.')
                                 })
