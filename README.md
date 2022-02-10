@@ -63,6 +63,7 @@ confReader.writeOptions(configFile, config, createNew).then((result) =>
 {
   console.info('Successfully saved configuration info.')
 }).catch((error) =>
+{
   console.error(error)
   process.exit(1)
 })
